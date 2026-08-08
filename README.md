@@ -2,7 +2,7 @@
 
 *A toy model exploring what happens when you replace deterministic dynamics with probabilistic axioms — and where memory actually lives in a system that's neither fully ordered nor fully chaotic.*
 
-TL;DR: A simple probabilistic dynamical system has an exact, closed-form point where chaos and collapse exactly balance. Memory of an initial condition survives dramatically longer right at that point than anywhere else — roughly 20–30x slower decay — and this holds across multiple independent parameter choices, not just one lucky setup.
+**TL;DR:** A simple probabilistic dynamical system has an exact, closed-form point where chaos and collapse exactly balance. Memory of an initial condition survives dramatically longer right at that point than anywhere else — roughly 20–30x slower decay — and this holds across multiple independent parameter choices, not just one lucky setup.
 
 ## Motivation
 
@@ -59,17 +59,27 @@ Measured via the **1D Wasserstein-1 distance** `W_1(P_0, P_1)` between the two r
 
 **Result:** `W_1` traces a clean, smooth peak centered exactly on the theoretical `p*`, across multiple time horizons (T=20, 100, 500). Away from `p*`, the peak collapses toward zero increasingly fast as `T` grows — by `T=500`, only a narrow window around `p*` retains any detectable signal at all.
 
+![Wasserstein-1 distance phase transition across horizons](figures/cds1.png)
+
+To see this qualitatively rather than just as a summary statistic, the figure below tracks full trajectories over time (not just the endpoint) for three values of `p` — chaotic, critical, and contracting. The visual difference in texture is the same phase transition, seen as a process rather than a number:
+
+![Phase space trajectories across the three regimes](figures/phase_space_trajectories.png)
+
 ### 2. Critical slowing down: does memory decay slower right at the threshold?
 
 For each `p`, we track `W_1` across a range of horizons `T ∈ {10, 20, ..., 320}` and fit an exponential decay rate `γ(p)` from the slope of `log(W_1)` vs `T`.
 
 **Result:** `γ(p)` forms a clean V-shape, with its minimum landing exactly at `p*`. At the edges of the tested range, decay rates run roughly **20–30x higher** than right at the critical point — meaning memory of the initial bit survives dramatically longer near criticality than anywhere else. This is the empirical signature of **critical slowing down**, a well-known phenomenon from statistical physics phase transitions, showing up here in a from-scratch discrete stochastic system.
 
+![Decay rate vs p showing a minimum at the critical point](figures/decay_rate_vs_p.png)
+
 ### 3. Universality: is this specific to one choice of (c, e)?
 
 We reran the full `γ(p)` sweep for three independent parameter pairs — `(c=0.5, e=2.0)`, `(c=0.3, e=3.0)`, `(c=0.7, e=1.5)` — each with its own distinct theoretical `p*` (0.500, 0.477, 0.532 respectively).
 
 **Result:** plotting `γ` against `p - p*` (distance from each config's own critical point) collapses all three curves' minima onto the same location: zero. Different microscopic contraction/expansion strengths, same critical location, same qualitative V-shape — just different steepness. This is the actual signature of **universality** in the physics sense: the location of a phase transition is a structural property of the system class, not an artifact of one parameter choice.
+
+![Universality check across three independent (c,e) configurations](figures/universality_check.png)
 
 ### 4. The critical exponent — and an honest surprise
 
@@ -83,26 +93,28 @@ So the full, honest result is two-part, not one clean number:
 - **Away from criticality:** decay rate scales as `γ(p) ~ |p-p*|^0.86`, roughly linear
 - **At criticality:** decay transitions from exponential to (apparently) sub-exponential/polynomial — the plateau itself is evidence of this regime change, not a nuisance to be fitted away
 
+![Critical exponent fit with the plateau region excluded](figures/critical_exponentfit_clean.png)
+
 ## Why this matters to me
 
-This connects to a thread that runs through everything else I'm working on. My UARD framework treats reward-model reliability as something to be *discounted*, not trusted outright — because the "true" objective a reward model is meant to approximate isn't a fixed, observer-independent target. My essay on ELK frames the failure as a structurally ill-posed inverse problem, for the same underlying reason: there's no single ground truth to invert toward. My observer-relative hardness thesis is about how computational hardness itself isn't intrinsic to a problem, it's relative to the observer's compute and information.
+This connects to a thread that runs through everything else I'm working on. My UARD framework treats reward-model reliability as something to be *discounted*, not trusted outright — because the "true" objective a reward model is meant to approximate isn't a fixed, observer-independent target. My essay on ELK frames the failure as a structurally ill-posed inverse problem, for the same underlying reason: there's no single ground truth to invert toward. My observer-relative hardness thesis says computational hardness itself isn't intrinsic to a problem, it's relative to the observer's compute and information.
 
-This toy model is the same idea in a different costume: **the boundary between "memory survives" and "memory is destroyed" is not one boundary, it's two structurally different failure modes (folding vs. collapse) meeting at a single, exactly-computable point** — and the closer you sit to that point, the harder it becomes to say, in finite time, which side you're actually on. It's a small, concrete instance of the same epistemic structure I think shows up everywhere in alignment and evaluation, verification, hardness, and memory are all things that look binary from far away and turn out to be continuous, fragile, and observer-relative up close.
+This toy model is the same idea in a different costume: **the boundary between "memory survives" and "memory is destroyed" is not one boundary, it's two structurally different failure modes (folding vs. collapse) meeting at a single, exactly-computable point** — and the closer you sit to that point, the harder it becomes to say, in finite time, which side you're actually on. That's not just a cute dynamical-systems fact. It's a small, concrete instance of the same epistemic structure I think shows up everywhere in alignment and evaluation: verification, hardness, and memory are all things that look binary from far away and turn out to be continuous, fragile, and observer-relative up close.
+
+## What would change my mind
+
+Worth stating plainly what would count as evidence against the claims above, not just evidence for them:
+
+- **On universality:** if a fourth `(c, e)` pair — especially one with a very different contraction/expansion ratio than the three tested — showed its decay-rate minimum sitting somewhere other than its own theoretical `p*`, that would undercut the universality claim. Right now three configs agreeing could still be a small-sample coincidence.
+- **On the plateau being a real exponential→polynomial crossover:** if directly fitting `W_1(T) ~ T^-β` at exactly `p = p*` failed to show a clean power law — e.g., if the plateau instead turned out to just be a finite-`T` ceiling artifact (decay is still exponential, just too slow to resolve within `T=320`) — the "qualitative regime change" interpretation would need to be walked back to a weaker claim: decay is *merely much slower* at criticality, not *categorically different in kind*.
+- **On the critical exponent (α≈0.86):** this rests on only 12 points. A denser, independently-seeded rerun landing meaningfully outside the 0.7–1.0 range would mean the current estimate was noise, not signal.
+- **On the whole framing being useful at all:** if none of this transfers to higher-dimensional or nonlinear random dynamical systems — if it turns out to be a peculiarity of 1D affine maps specifically — the "hydrogen atom" framing would need revising from "minimal instance of a general phenomenon" down to "a clean but narrow special case."
 
 ## Honest limitations
 
 - All results are from a single, simple affine two-map system. Whether this generalizes to higher-dimensional or nonlinear random dynamical systems is untested.
 - The critical exponent estimate (α ≈ 0.86) rests on a small number of points (n=12) after excluding the plateau — worth tightening with a larger, more targeted sweep before treating it as a precise number.
 - The plateau interpretation (exponential → polynomial decay crossover) is a plausible, theory-consistent explanation of the data, not yet independently confirmed by directly fitting a polynomial decay law in `T` at exactly `p*`.
-
-  ## What would change my mind
-
-Worth stating plainly what would count as evidence against the claims above, not just evidence for them:
-
-- [ ] On universality: if a fourth (c, e) pair — especially one with a very different contraction/expansion ratio than the three tested — showed its decay-rate minimum sitting somewhere other than its own theoretical p*, that would undercut the universality claim. Right now three configs agreeing could still be a small-sample coincidence.
-- [ ] On the plateau being a real exponential→polynomial crossover: if directly fitting W_1(T) ~ T^-β at exactly p = p* failed to show a clean power law — e.g., if the plateau instead turned out to just be a finite-T ceiling artifact (decay is still exponential, just too slow to resolve within T=320) — the "qualitative regime change" interpretation would need to be walked back to a weaker claim: decay is merely much slower at criticality, not categorically different in kind.
-- [ ] On the critical exponent (α≈0.86): this rests on only 12 points. A denser, independently-seeded rerun landing meaningfully outside the 0.7–1.0 range would mean the current estimate was noise, not signal.
-- [ ] On the whole framing being useful at all: if none of this transfers to higher-dimensional or nonlinear random dynamical systems — if it turns out to be a peculiarity of 1D affine maps specifically — the "hydrogen atom" framing would need revising from "minimal instance of a general phenomenon" down to "a clean but narrow special case."
 
 ## Next steps
 
@@ -111,16 +123,10 @@ Worth stating plainly what would count as evidence against the claims above, not
 - [ ] Extend to higher-dimensional random IFS (2D+ phase space) to test whether the same universality holds outside 1D
 - [ ] Explore the probabilistic-shadowing question directly: does the sequence of probability measures `μ_t` stay within bounded Wasserstein distance of an idealized Markov chain, and does *that* distance also exhibit critical behavior at `p*`?
 - [ ] Write this up properly as a short, self-contained note — separate from CodeHack-Eval, since it's a different kind of contribution (theoretical/simulation vs. empirical eval pipeline)
-- [ ] A sharper deterministic analog. A related experiment replacing per-step randomness with a fixed, deterministic arrangement of contracting/expanding steps (same total ratio p, no coin flips) shows the same critical point p* — but as a near-singular spike rather than the smooth, broad peak seen in the stochastic version. This suggests the randomness in the probabilistic model isn't incidental to the results above — it's actively smoothing what would otherwise be a much sharper, more fragile transition. Worth exploring further as a direct comparison between stochastic and deterministic critical behavior in this system class.
-
-## What feels new here
-
-I want to be careful with this, because "novel" is a word that gets thrown around too easily. I'm not claiming to have discovered edge-of-chaos criticality — that's decades-old territory. What I think might actually be new, or at least not something I've seen done this way:
-
-Most edge-of-chaos work lives in cellular automata or reservoir computing, where "criticality" is usually tuned indirectly — through a parameter that correlates with the Lyapunov exponent, estimated numerically, after the fact. Here, the critical point isn't estimated — it's derived in closed form before a single simulation runs, because the affine-plus-wraparound structure makes the Lyapunov exponent exactly linear in the switching probability. That's what let me predict p* on paper first, then watch the simulation land on it, rather than the more usual direction of sweeping a parameter and discovering where the transition happens to sit.
-
-And the two-sided decay story — fitting γ(p) on both sides, finding it's well-approximated by a power law away from criticality, and then finding a plateau right at the critical point that's consistent with a transition from exponential to polynomial decay — isn't something I set out looking for. It fell out of trying to make the exponent fit rigorous, and turned out to be the more interesting result than the fit itself. I haven't seen this specific two-regime decay signature (clean power law approaching criticality, then a qualitative decay-type change exactly at it) laid out this explicitly in the toy-model edge-of-chaos literature I've read — though I'd genuinely want to check more carefully before saying that with confidence.
+- [ ] **A sharper deterministic analog.** A related experiment replacing per-step randomness with a fixed, deterministic arrangement of contracting/expanding steps (same total ratio `p`, no coin flips) shows the same critical point `p*` — but as a near-singular spike rather than the smooth, broad peak seen in the stochastic version. This suggests the randomness in the probabilistic model isn't incidental to the results above — it's actively smoothing what would otherwise be a much sharper, more fragile transition. Worth exploring further as a direct comparison between stochastic and deterministic critical behavior in this system class.
 
 ## Reproducing this
 
-All experiments are pure NumPy/Matplotlib, no GPU or external API needed — runs on a plain Google Colab CPU runtime in a few minutes. See `probabilistic_cds_experiments.ipynb` [or wherever you end up putting the notebook] for the full code. 
+All experiments are pure NumPy/Matplotlib, no GPU or external API needed — runs on a plain Google Colab CPU runtime in a few minutes (roughly 15 minutes total for the full experiment set, including the universality sweep). Full code is in [`probabilistic_cds_experiments.ipynb`](probabilistic_cds_experiments.ipynb).
+
+**Dependencies:** `numpy`, `matplotlib` — no exotic or version-pinned packages required; any reasonably recent version of either should work.
