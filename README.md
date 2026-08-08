@@ -93,7 +93,7 @@ So the full, honest result is two-part, not one clean number:
 - **Away from criticality:** decay rate scales as `γ(p) ~ |p-p*|^0.86`, roughly linear
 - **At criticality:** decay transitions from exponential to (apparently) sub-exponential/polynomial — the plateau itself is evidence of this regime change, not a nuisance to be fitted away
 
-![Critical exponent fit with the plateau region excluded](figures/critical_exponentfit_clean.png)
+![Critical exponent fit with the plateau region excluded](figures/critical_exponentfit.png)
 
 ## Why this matters to me
 
