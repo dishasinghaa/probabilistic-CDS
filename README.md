@@ -2,6 +2,8 @@
 
 *A toy model exploring what happens when you replace deterministic dynamics with probabilistic axioms — and where memory actually lives in a system that's neither fully ordered nor fully chaotic.*
 
+TL;DR: A simple probabilistic dynamical system has an exact, closed-form point where chaos and collapse exactly balance. Memory of an initial condition survives dramatically longer right at that point than anywhere else — roughly 20–30x slower decay — and this holds across multiple independent parameter choices, not just one lucky setup.
+
 ## Motivation
 
 Cotler & Rezchikov's *Computational Dynamical Systems* (CDS) builds its apparatus on **deterministic** maps: `x_{t+1} = f(x_t)`. Even though the system is fully determined, an *observer* with bounded compute often can't predict its future — not because of randomness, but because simulating the rule forward can be computationally irreducible. That observer-boundedness is the seed of a broader idea I keep returning to across this work: hardness isn't a fixed property of a problem, it's relative to who's trying to solve it and with what resources.
@@ -92,6 +94,15 @@ This toy model is the same idea in a different costume: **the boundary between "
 - All results are from a single, simple affine two-map system. Whether this generalizes to higher-dimensional or nonlinear random dynamical systems is untested.
 - The critical exponent estimate (α ≈ 0.86) rests on a small number of points (n=12) after excluding the plateau — worth tightening with a larger, more targeted sweep before treating it as a precise number.
 - The plateau interpretation (exponential → polynomial decay crossover) is a plausible, theory-consistent explanation of the data, not yet independently confirmed by directly fitting a polynomial decay law in `T` at exactly `p*`.
+
+  ## What would change my mind
+
+Worth stating plainly what would count as evidence against the claims above, not just evidence for them:
+
+On universality: if a fourth (c, e) pair — especially one with a very different contraction/expansion ratio than the three tested — showed its decay-rate minimum sitting somewhere other than its own theoretical p*, that would undercut the universality claim. Right now three configs agreeing could still be a small-sample coincidence.
+On the plateau being a real exponential→polynomial crossover: if directly fitting W_1(T) ~ T^-β at exactly p = p* failed to show a clean power law — e.g., if the plateau instead turned out to just be a finite-T ceiling artifact (decay is still exponential, just too slow to resolve within T=320) — the "qualitative regime change" interpretation would need to be walked back to a weaker claim: decay is merely much slower at criticality, not categorically different in kind.
+On the critical exponent (α≈0.86): this rests on only 12 points. A denser, independently-seeded rerun landing meaningfully outside the 0.7–1.0 range would mean the current estimate was noise, not signal.
+On the whole framing being useful at all: if none of this transfers to higher-dimensional or nonlinear random dynamical systems — if it turns out to be a peculiarity of 1D affine maps specifically — the "hydrogen atom" framing would need revising from "minimal instance of a general phenomenon" down to "a clean but narrow special case."
 
 ## Next steps
 
