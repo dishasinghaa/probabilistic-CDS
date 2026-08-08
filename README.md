@@ -83,9 +83,9 @@ So the full, honest result is two-part, not one clean number:
 
 ## Why this matters to me
 
-This connects to a thread that runs through everything else I'm working on. My UARD framework treats reward-model reliability as something to be *discounted*, not trusted outright — because the "true" objective a reward model is meant to approximate isn't a fixed, observer-independent target. My essay on ELK frames the failure as a structurally ill-posed inverse problem, for the same underlying reason: there's no single ground truth to invert toward. My observer-relative hardness thesis says computational hardness itself isn't intrinsic to a problem, it's relative to the observer's compute and information.
+This connects to a thread that runs through everything else I'm working on. My UARD framework treats reward-model reliability as something to be *discounted*, not trusted outright — because the "true" objective a reward model is meant to approximate isn't a fixed, observer-independent target. My essay on ELK frames the failure as a structurally ill-posed inverse problem, for the same underlying reason: there's no single ground truth to invert toward. My observer-relative hardness thesis is about how computational hardness itself isn't intrinsic to a problem, it's relative to the observer's compute and information.
 
-This toy model is the same idea in a different costume: **the boundary between "memory survives" and "memory is destroyed" is not one boundary, it's two structurally different failure modes (folding vs. collapse) meeting at a single, exactly-computable point** — and the closer you sit to that point, the harder it becomes to say, in finite time, which side you're actually on. That's not just a cute dynamical-systems fact. It's a small, concrete instance of the same epistemic structure I think shows up everywhere in alignment and evaluation: verification, hardness, and memory are all things that look binary from far away and turn out to be continuous, fragile, and observer-relative up close.
+This toy model is the same idea in a different costume: **the boundary between "memory survives" and "memory is destroyed" is not one boundary, it's two structurally different failure modes (folding vs. collapse) meeting at a single, exactly-computable point** — and the closer you sit to that point, the harder it becomes to say, in finite time, which side you're actually on. It's a small, concrete instance of the same epistemic structure I think shows up everywhere in alignment and evaluation, verification, hardness, and memory are all things that look binary from far away and turn out to be continuous, fragile, and observer-relative up close.
 
 ## Honest limitations
 
@@ -100,6 +100,7 @@ This toy model is the same idea in a different costume: **the boundary between "
 - [ ] Extend to higher-dimensional random IFS (2D+ phase space) to test whether the same universality holds outside 1D
 - [ ] Explore the probabilistic-shadowing question directly: does the sequence of probability measures `μ_t` stay within bounded Wasserstein distance of an idealized Markov chain, and does *that* distance also exhibit critical behavior at `p*`?
 - [ ] Write this up properly as a short, self-contained note — separate from CodeHack-Eval, since it's a different kind of contribution (theoretical/simulation vs. empirical eval pipeline)
+- [ ] A sharper deterministic analog. A related experiment replacing per-step randomness with a fixed, deterministic arrangement of contracting/expanding steps (same total ratio p, no coin flips) shows the same critical point p* — but as a near-singular spike rather than the smooth, broad peak seen in the stochastic version. This suggests the randomness in the probabilistic model isn't incidental to the results above — it's actively smoothing what would otherwise be a much sharper, more fragile transition. Worth exploring further as a direct comparison between stochastic and deterministic critical behavior in this system class.
 
 ## What feels new here
 
@@ -111,4 +112,4 @@ And the two-sided decay story — fitting γ(p) on both sides, finding it's well
 
 ## Reproducing this
 
-All experiments are pure NumPy/Matplotlib, no GPU or external API needed — runs on a plain Google Colab CPU runtime in a few minutes. See probabilistic_cds_experiments.ipynb [or wherever you end up putting the notebook] for the full code.
+All experiments are pure NumPy/Matplotlib, no GPU or external API needed — runs on a plain Google Colab CPU runtime in a few minutes. See `probabilistic_cds_experiments.ipynb` [or wherever you end up putting the notebook] for the full code. 
