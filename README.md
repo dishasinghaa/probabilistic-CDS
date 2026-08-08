@@ -99,10 +99,10 @@ This toy model is the same idea in a different costume: **the boundary between "
 
 Worth stating plainly what would count as evidence against the claims above, not just evidence for them:
 
-On universality: if a fourth (c, e) pair — especially one with a very different contraction/expansion ratio than the three tested — showed its decay-rate minimum sitting somewhere other than its own theoretical p*, that would undercut the universality claim. Right now three configs agreeing could still be a small-sample coincidence.
-On the plateau being a real exponential→polynomial crossover: if directly fitting W_1(T) ~ T^-β at exactly p = p* failed to show a clean power law — e.g., if the plateau instead turned out to just be a finite-T ceiling artifact (decay is still exponential, just too slow to resolve within T=320) — the "qualitative regime change" interpretation would need to be walked back to a weaker claim: decay is merely much slower at criticality, not categorically different in kind.
-On the critical exponent (α≈0.86): this rests on only 12 points. A denser, independently-seeded rerun landing meaningfully outside the 0.7–1.0 range would mean the current estimate was noise, not signal.
-On the whole framing being useful at all: if none of this transfers to higher-dimensional or nonlinear random dynamical systems — if it turns out to be a peculiarity of 1D affine maps specifically — the "hydrogen atom" framing would need revising from "minimal instance of a general phenomenon" down to "a clean but narrow special case."
+- [ ]On universality: if a fourth (c, e) pair — especially one with a very different contraction/expansion ratio than the three tested — showed its decay-rate minimum sitting somewhere other than its own theoretical p*, that would undercut the universality claim. Right now three configs agreeing could still be a small-sample coincidence.
+- [ ]On the plateau being a real exponential→polynomial crossover: if directly fitting W_1(T) ~ T^-β at exactly p = p* failed to show a clean power law — e.g., if the plateau instead turned out to just be a finite-T ceiling artifact (decay is still exponential, just too slow to resolve within T=320) — the "qualitative regime change" interpretation would need to be walked back to a weaker claim: decay is merely much slower at criticality, not categorically different in kind.
+- [ ]On the critical exponent (α≈0.86): this rests on only 12 points. A denser, independently-seeded rerun landing meaningfully outside the 0.7–1.0 range would mean the current estimate was noise, not signal.
+- [ ]On the whole framing being useful at all: if none of this transfers to higher-dimensional or nonlinear random dynamical systems — if it turns out to be a peculiarity of 1D affine maps specifically — the "hydrogen atom" framing would need revising from "minimal instance of a general phenomenon" down to "a clean but narrow special case."
 
 ## Next steps
 
